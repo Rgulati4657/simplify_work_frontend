@@ -5,9 +5,11 @@ import Dashboard from './pages/Dashboard';
 import UploadBanner from './pages/UploadBanner';
 import BannerList from './pages/BannerList';
 import BulkUploadcopy from './pages/BulkUploadcopy';
+import Login from './pages/Login';
 // import BulkUpload from './pages/BulkUpload';
 import ResponsiveDashboard from './pages/Dashboardcopy';
 import BannerListcopy from './pages/BannerListcopy';
+import ProtectedRoute from './components/ProtectedRoutes';
 function App() {
   return (
     <Router>
@@ -16,8 +18,10 @@ function App() {
         <Route path="/upload" element={<UploadBanner />} />
         <Route path="/list" element={<BannerList />} />
         <Route path="/bulk" element={<BulkUploadcopy />} /> */}
-        <Route path="/dash" element={<ResponsiveDashboard />} />
-        <Route path="/list" element={<BannerListcopy />} />
+         <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<ProtectedRoute><ResponsiveDashboard /></ProtectedRoute>} />
+        {/* <Route path="/list" element={<ProtectedRoute><BannerListcopy /></ProtectedRoute>} /> */}
+        <Route path="*" element={<Login />} />
       </Routes>
     </Router>
   );
