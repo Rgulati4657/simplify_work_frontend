@@ -1,0 +1,259 @@
+/* Color Palette */
+:root {
+  --color-whitesmoke: #f5f5f5;
+  --color-light-sky-blue: #e0f7fa; /* A very light sky blue */
+  --color-sky-blue: #87CEEB; /* Standard sky blue */
+  --color-deep-sky-blue: #00BFFF; /* A bit deeper sky blue */
+  --color-dark-text: #333;
+  --color-light-text: #555;
+  --color-white: #ffffff;
+}
+
+/* Gradient 1: Main Container Background */
+.bannerListContainer {
+  font-family: 'Arial', sans-serif;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 30px auto;
+  background: linear-gradient(160deg, var(--color-whitesmoke) 0%, var(--color-light-sky-blue) 100%); /* Whitesmoke to light sky blue */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Spacing between sections */
+}
+
+h1 {
+  text-align: center;
+  color: var(--color-dark-text);
+  margin-bottom: 0; /* Adjusted for gap */
+  font-size: 2.5em;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Filter Section */
+.filterSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  justify-content: center;
+  align-items: center;
+}
+
+.filterSection input {
+  padding: 12px 15px;
+  border: 1px solid #cce;
+  border-radius: 6px;
+  flex-grow: 1;
+  min-width: 180px;
+  font-size: 1em;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filterSection input:focus {
+  border-color: var(--color-sky-blue);
+  box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.3);
+  outline: none;
+}
+
+.filterSection button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  font-weight: bold;
+  font-size: 1em;
+  color: var(--color-white);
+}
+
+.filterButton {
+  background-color: var(--color-sky-blue);
+}
+
+.filterButton:hover:not(:disabled) {
+  background-color: var(--color-deep-sky-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 191, 255, 0.2);
+}
+
+.clearFiltersButton {
+  background-color: #99AABB; /* A light grey-blue for clear */
+}
+
+.clearFiltersButton:hover:not(:disabled) {
+  background-color: #778899;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(119, 136, 153, 0.2);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Messages (Loading, Error, No Banners) */
+.loadingMessage,
+.errorMessage,
+.noBannersMessage {
+  text-align: center;
+  padding: 18px;
+  margin-top: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.loadingMessage {
+  background-color: #e0f7fa; /* Light sky blue */
+  color: #007bff;
+  border: 1px solid #b3e5fc;
+}
+
+.errorMessage {
+  background-color: #ffe0e0;
+  color: #d9534f;
+  border: 1px solid #f2c7c7;
+}
+
+.noBannersMessage {
+  background-color: #fff8e1;
+  color: #856404;
+  border: 1px solid #ffe0b2;
+}
+
+/* Table Styles */
+.tableResponsive {
+  overflow-x: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.bannerTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-white);
+  border-radius: 8px;
+  overflow: hidden; /* Ensures border-radius applies to table */
+}
+
+.bannerTable th,
+.bannerTable td {
+  border: 1px solid #ebf2f5; /* Very light border */
+  padding: 15px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Gradient 2: Table Header Background */
+.bannerTable th {
+  background: linear-gradient(75deg, #ADD8E6 0%, #87CEEB 100%); /* Light Blue to Sky Blue */
+  color: var(--color-white);
+  font-weight: bold;
+  font-size: 0.95em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.bannerTable tbody tr:nth-child(even) {
+  background-color: var(--color-whitesmoke); /* Whitesmoke for even rows */
+}
+
+.bannerTable tbody tr:hover {
+  background-color: #e6f7ff; /* Lighter sky blue on hover */
+  transition: background-color 0.2s ease;
+}
+
+/* Image Thumbnail */
+.imageCell {
+  text-align: center;
+}
+
+.bannerThumbnail {
+  width: 90px;
+  height: auto;
+  border-radius: 6px;
+  object-fit: contain;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* Status Badges */
+.statusActive {
+  background-color: #e6ffe6; /* Very light green */
+  color: #28a745;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: bold;
+  border: 1px solid #d4edda;
+}
+
+.statusUpcoming {
+  background-color: #fff8e1; /* Very light yellow */
+  color: #ffc107;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: bold;
+  border: 1px solid #ffeeba;
+}
+
+.statusExpired {
+  background-color: #ffe6e6; /* Very light red */
+  color: #dc3545;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: bold;
+  border: 1px solid #f8d7da;
+}
+
+/* Action Button */
+.deleteButton {
+  background-color: #ff6347; /* Tomato red */
+  color: var(--color-white);
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background-color: #e04a2d;
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filterSection {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 600px) {
+  .bannerListContainer {
+    padding: 15px;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  .bannerTable th,
+  .bannerTable td {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+}
