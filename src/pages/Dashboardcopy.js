@@ -1,70 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-// import UploadBanner from './UploadBanner'; // Link the UploadBanner component
+
 import UploadBanner from './UploadBannerCopy1'; // Link the UploadBanner component
-// import BannerList from './BannerList';
+
 import BulkUploadcopy from './BulkUploadcopy';
 
 
 import BannerListcopy from './BannerListCopyUpdated';
-// import BannerListcopy from './BannerListcopy';
 
-
-// const ViewBanners = () => (
-//   <div className="component-container">
-//     <h2 className="component-title">View Uploaded Banners</h2>
-//     <p className="component-description">List of banners component will be rendered here</p>
-//     <style jsx>{`
-//       .component-container {
-//         background-color: white;
-//         border-radius: 0.75rem;
-//         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-//         padding: 2rem;
-//       }
-//       @media (max-width: 768px) {
-//         .component-container { padding: 1.5rem; }
-//       }
-//       .component-title {
-//         font-size: 1.5rem;
-//         font-weight: bold;
-//         color: #111827;
-//         margin: 0 0 1rem 0;
-//       }
-//       .component-description {
-//         color: #6b7280;
-//         margin: 0;
-//       }
-//     `}</style>
-//   </div>
-// );
-
-// const BulkUpload = () => (
-//   <div className="component-container">
-//     <h2 className="component-title">Bulk Upload</h2>
-//     <p className="component-description">Bulk upload component will be rendered here</p>
-//     <style jsx>{`
-//       .component-container {
-//         background-color: white;
-//         border-radius: 0.75rem;
-//         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-//         padding: 2rem;
-//       }
-//       @media (max-width: 768px) {
-//         .component-container { padding: 1.5rem; }
-//       }
-//       .component-title {
-//         font-size: 1.5rem;
-//         font-weight: bold;
-//         color: #111827;
-//         margin: 0 0 1rem 0;
-//       }
-//       .component-description {
-//         color: #6b7280;
-//         margin: 0;
-//       }
-//     `}</style>
-//   </div>
-// );
 
 const ResponsiveDashboard = () => {
   const [activeComponent, setActiveComponent] = useState('upload');
