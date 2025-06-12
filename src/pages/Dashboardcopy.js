@@ -1,9 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import UploadBanner from './UploadBanner'; // Link the UploadBanner component
+// import UploadBanner from './UploadBanner'; // Link the UploadBanner component
+import UploadBanner from './UploadBannerCopy1'; // Link the UploadBanner component
 // import BannerList from './BannerList';
 import BulkUploadcopy from './BulkUploadcopy';
-import BannerListcopy from './BannerListcopy';
+
+
+import BannerListcopy from './BannerListCopyUpdated';
+// import BannerListcopy from './BannerListcopy';
 
 
 // const ViewBanners = () => (
@@ -209,6 +213,7 @@ const ResponsiveDashboard = () => {
           /* Background only for upload/bulk */
 .with-background {
   background: linear-gradient(135deg, #e9ebea, #3386bd);
+  height: 100%;
 }
 
 /* No background for list page */

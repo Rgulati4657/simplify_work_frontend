@@ -247,6 +247,122 @@
 
 
 
+// import React, { useState } from 'react';
+// import styles from './Login.module.css';
+
+// const Login = () => {
+//   const [formData, setFormData] = useState({
+//     username: '',
+//     password: '',
+//   });
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     console.log(`Input changed - ${name}: ${value}`);
+//     setFormData(prev => ({
+//       ...prev,
+//       [name]: value
+//     }));
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     console.log('Form submitted with data:', formData);
+
+//     try {
+//       const response = await fetch('http://localhost:4000/auth/login', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(formData),
+//       });
+
+//       console.log('Response status:', response.status);
+//       const raw = await response.text();
+//       console.log('Raw response:', raw);
+//     //   const data = await response.json();
+// let data;
+//     try {
+//   data = JSON.parse(raw);
+//   console.log('Parsed JSON:', data);
+//   // Handle login success or failure here...
+// } catch (err) {
+//   console.error('Error parsing JSON:', err);
+// }
+//       if (data.success && data.token) {
+        
+
+//         console.log('Login successful, token received:', data.token);
+
+//         localStorage.setItem('authToken', data.token);
+//         alert('Login successful!');
+//         window.location.href = '/dashboard';
+//       } else {
+//         console.warn('Login failed: Invalid credentials');
+//         alert('Invalid credentials. Please try again.');
+//       }
+//     } catch (error) {
+//       console.error('Error during login request:', error);
+//       alert(`An error occurred. Please try again. ${error.message}`);
+//     }
+//   };
+
+//   return (
+//     <div className={styles.body}>
+//       <div className={`${styles.shape} ${styles.shape1}`}></div>
+//       <div className={`${styles.shape} ${styles.shape2}`}></div>
+//       <div className={`${styles.shape} ${styles.shape3}`}></div>
+
+//       <div className={styles.loginContainer}>
+//         <div className={styles.logo}>
+//           <div className={styles.logoIcon}></div>
+//           <h1>Sign in</h1>
+//         </div>
+
+//         <form onSubmit={handleSubmit}>
+//           <div className={styles.formGroup}>
+//             <div className={styles.inputWrapper}>
+//               <span className={styles.inputIcon}>👤</span>
+//               <input
+//                 type="text"
+//                 className={styles.formInput}
+//                 placeholder="username"
+//                 name="username"
+//                 value={formData.username}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </div>
+//           </div>
+
+//           <div className={styles.formGroup}>
+//             <div className={styles.inputWrapper}>
+//               <span className={styles.inputIcon}>🔒</span>
+//               <input
+//                 type="password"
+//                 className={styles.formInput}
+//                 placeholder="password"
+//                 name="password"
+//                 value={formData.password}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </div>
+//           </div>
+
+//           <button type="submit" className={styles.loginBtn}>
+//             Sign In
+//           </button>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Login;
+// Above  selected for localworks perfectly, below is the one with env variable
+
 import React, { useState } from 'react';
 import styles from './Login.module.css';
 
@@ -258,7 +374,6 @@ const Login = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(`Input changed - ${name}: ${value}`);
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -267,10 +382,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData);
+
+    const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://192.168.1.7:8080'; 
+    console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
+    console.log('Base URL:', baseUrl);
+    if (!baseUrl) {
+      alert('API base URL not configured. Set REACT_APP_API_BASE_URL in your .env file.');
+      return;
+    }
 
     try {
-      const response = await fetch('http://localhost:4000/auth/login', {
+      const response = await fetch(`${baseUrl}/api/auth/login`, {
+      // const response = await fetch(`http://192.168.1.7:8080/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -278,32 +401,28 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
 
-      console.log('Response status:', response.status);
       const raw = await response.text();
-      console.log('Raw response:', raw);
-    //   const data = await response.json();
-let data;
-    try {
-  data = JSON.parse(raw);
-  console.log('Parsed JSON:', data);
-  // Handle login success or failure here...
-} catch (err) {
-  console.error('Error parsing JSON:', err);
-}
-      if (data.success && data.token) {
-        
+      let data;
 
-        console.log('Login successful, token received:', data.token);
+      try {
+        data = JSON.parse(raw);
+      } catch (err) {
+        console.error('Error parsing JSON:', err);
+        alert('Unexpected response from server.');
+        return;
+      }
 
-        localStorage.setItem('authToken', data.token);
-        alert('Login successful!');
+      if (response.ok && data.jwt) {
+        console.log('Login successful, JWT received:', data.jwt);
+        localStorage.setItem('authToken', data.jwt);
+        // alert('Login successful!');
         window.location.href = '/dashboard';
       } else {
-        console.warn('Login failed: Invalid credentials');
+        console.warn('Login failed:', data);
         alert('Invalid credentials. Please try again.');
       }
     } catch (error) {
-      console.error('Error during login request:', error);
+      console.error('Login request error:', error);
       alert(`An error occurred. Please try again. ${error.message}`);
     }
   };

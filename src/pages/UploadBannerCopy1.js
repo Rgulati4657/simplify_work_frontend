@@ -1,61 +1,7 @@
-// import React, { useState } from 'react';
-import axios from 'axios';
-
-// function UploadBanner() {
-//   const [form, setForm] = useState({
-//     clientId: '',
-//     panId: '',
-//     channel: '',
-//     priority: '',
-//     file: null,
-//   });
-
-//   const handleChange = e => {
-//     const { name, value } = e.target;
-//     setForm(prev => ({ ...prev, [name]: value }));
-//   };
-
-//   const handleFileChange = e => {
-//     setForm(prev => ({ ...prev, file: e.target.files[0] }));
-//   };
-
-//   const handleSubmit = async e => {
-//     e.preventDefault();
-//     const filename = `banner-${Date.now()}.jpg`;
-//     const { data: uploadUrl } = await axios.get(`/api/upload/presigned-url?filename=${filename}`);
-//     await axios.put(uploadUrl, form.file, { headers: { 'Content-Type': form.file.type } });
-
-//     const metadata = {
-//       client_id: form.clientId,
-//       pan_id: form.panId,
-//       channel: form.channel,
-//       image_url: uploadUrl.split('?')[0],
-//       click_action: "https://example.com",
-//       priority: parseInt(form.priority),
-//       valid_from: new Date().toISOString(),
-//       valid_to: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString()
-//     };
-
-//     await axios.post('/api/banners', metadata);
-//     alert("Banner uploaded!");
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <input name="clientId" placeholder="Client ID" onChange={handleChange} required />
-//       <input name="panId" placeholder="PAN ID" onChange={handleChange} required />
-//       <input name="channel" placeholder="Channel" onChange={handleChange} required />
-//       <input name="priority" placeholder="Priority" onChange={handleChange} type="number" required />
-//       <input type="file" accept="image/*" onChange={handleFileChange} required />
-//       <button type="submit">Upload Banner</button>
-//     </form>
-//   );
-// }
-
-// export default UploadBanner;
-
 // import React, { useState } from "react";
 // import styles from "./UploadBanner.module.css";
+// import axios from "axios";
+// const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // function UploadBanner() {
 //   const [form, setForm] = useState({
@@ -63,6 +9,7 @@ import axios from 'axios';
 //     panId: "",
 //     channel: "",
 //     priority: "",
+//     clickAction: "",
 //     file: null,
 //   });
 
@@ -98,57 +45,125 @@ import axios from 'axios';
 //     }
 //   };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setUploading(true);
+// //   const handleSubmit = async () => {
+// //     if (!form.file) {
+// //       alert("Please select a file to upload.");
+// //       return;
+// //     }
 
-//     try {
-//       // Simulate API call - replace with your actual API logic
-//       await new Promise((resolve) => setTimeout(resolve, 2000));
+// //     setUploading(true);
 
-//       setUploadSuccess(true);
-//       setTimeout(() => {
-//         setUploadSuccess(false);
-//         setForm({
-//           clientId: "",
-//           panId: "",
-//           channel: "",
-//           priority: "",
-//           file: null,
-//         });
-//       }, 3000);
-//     } catch (error) {
-//       console.error("Upload failed:", error);
-//     } finally {
-//       setUploading(false);
-//     }
+// //     try {
+// //       const formData = new FormData();
+// //       formData.append("clientId", form.clientId);
+// //       formData.append("panId", form.panId);
+// //       formData.append("channel", form.channel);
+// //       // formData.append("priority", form.priority);
+// //       formData.append("priority", parseInt(form.priority, 10)); // convert to integer
+// //  formData.append("status", "active"); // new field added
+// //       formData.append("clickAction", form.clickAction);
+// //       formData.append("bannerImage", form.file);
+
+// //       const token = localStorage.getItem("authToken");
+
+// //       const res = await fetch(`${API_BASE_URL}/api/banners`, {
+// //         method: "POST",
+// //         headers: {
+// //           Authorization: `Bearer ${token}`,
+// //         },
+// //         body: formData,
+// //       });
+
+// //       if (res.ok) {
+// //         setUploadSuccess(true);
+// //         clearForm();
+// //         setTimeout(() => setUploadSuccess(false), 3000);
+// //       } else {
+// //         const errText = await res.text();
+// //         alert("Upload failed: " + errText);
+// //       }
+// //     } catch (err) {
+// //       console.error("Upload error:", err);
+// //       alert("Upload error: " + err.message);
+// //     } finally {
+// //       setUploading(false);
+// //     }
+// //   };
+
+
+// const handleSubmit = async () => {
+//   if (!form.file) {
+//     alert("Please select a file to upload.");
+//     return;
+//   }
+
+//   setUploading(true);
+
+//   const bannerMetadata = {
+//     clientId: form.clientId,
+//     panId: form.panId,
+//     channel: form.channel,
+//     priority: parseInt(form.priority, 10),
+//     clickAction: form.clickAction,
+//     status: "active",
 //   };
 
+//   const formData = new FormData();
+//   formData.append("banner", new Blob([JSON.stringify(bannerMetadata)], { type: "application/json" }));
+//   formData.append("file", form.file);
+
+//   try {
+//     const token = localStorage.getItem("authToken");
+
+//     const response = await axios.post(`${API_BASE_URL}/api/banners`, formData, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+
+//     if (response.status === 200 || response.status === 201) {
+//       setUploadSuccess(true);
+//       clearForm();
+//       setTimeout(() => setUploadSuccess(false), 3000);
+//     } else {
+//       alert("Upload failed with status: " + response.status);
+//     }
+//   } catch (error) {
+//     console.error("Upload error:", error);
+//     alert("Upload error: " + error.message);
+//   } finally {
+//     setUploading(false);
+//   }
+// };
 //   const clearForm = () => {
 //     setForm({
 //       clientId: "",
 //       panId: "",
 //       channel: "",
 //       priority: "",
+//       clickAction: "",
 //       file: null,
 //     });
 //   };
 
 //   const isFormValid =
-//     form.clientId && form.panId && form.channel && form.priority && form.file;
+//     form.clientId &&
+//     form.panId &&
+//     form.channel &&
+//     form.priority &&
+//     form.clickAction &&
+//     form.file;
 
 //   return (
 //     <div className={styles.container}>
 //       <div className={styles.wrapper}>
-//         {/* Header */}
 //         <div className={styles.header}>
-//           <h1 className={styles.title}>Add Your Banner</h1>
+//           <h1 className={styles.title}>Upload a Banner</h1>
 //         </div>
 
-//         {/* Main Form Card */}
 //         <div className={styles.card}>
 //           <div className={styles.formContainer}>
-//             {/* Form Fields Grid */}
 //             <div className={styles.grid}>
 //               <div className={styles.inputGroup}>
 //                 <label className={styles.label}>Client ID</label>
@@ -206,9 +221,21 @@ import axios from 'axios';
 //                   <option value="3">Low (3)</option>
 //                 </select>
 //               </div>
+
+//               <div className={styles.inputGroup}>
+//                 <label className={styles.label}>Redirect URL</label>
+//                 <input
+//                   name="clickAction"
+//                   type="url"
+//                   value={form.redirectUrl}
+//                   placeholder="https://example.com"
+//                   onChange={handleChange}
+//                   required
+//                   className={styles.input}
+//                 />
+//               </div>
 //             </div>
 
-//             {/* File Upload Area */}
 //             <div className={styles.uploadSection}>
 //               <label className={styles.label}>Banner Image</label>
 //               <div
@@ -259,7 +286,6 @@ import axios from 'axios';
 //               </div>
 //             </div>
 
-//             {/* Action Buttons */}
 //             <div className={styles.buttonGroup}>
 //               <button
 //                 type="button"
@@ -292,7 +318,6 @@ import axios from 'axios';
 //           </div>
 //         </div>
 
-//         {/* Success Message */}
 //         {uploadSuccess && (
 //           <div className={styles.successMessage}>
 //             <div className={styles.successIcon}>✓</div>
@@ -300,7 +325,6 @@ import axios from 'axios';
 //           </div>
 //         )}
 
-//         {/* Info Card */}
 //         <div className={styles.infoCard}>
 //           <div className={styles.infoIcon}>i</div>
 //           <div className={styles.infoContent}>
@@ -319,25 +343,21 @@ import axios from 'axios';
 // }
 
 // export default UploadBanner;
-// export default UploadBanner;
-// Above written code is a React component for uploading banners with a modern UI. It includes form validation, drag-and-drop file upload, and success messages. The component is styled using CSS modules for a clean and responsive design.
-// will work and selected for localhost
-
 
 
 import React, { useState } from "react";
 import styles from "./UploadBanner.module.css";
+import axios from "axios";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function UploadBanner() {
   const [form, setForm] = useState({
-    bannerId: "",
     clientId: "",
     panId: "",
     channel: "",
     priority: "",
-    redirectUrl: "",
+    clickAction: "",
     file: null,
   });
 
@@ -381,117 +401,51 @@ function UploadBanner() {
 
     setUploading(true);
 
-    try {
-      const formData = new FormData();
-      formData.append("clientId", form.clientId);
-      formData.append("panId", form.panId);
-      formData.append("channel", form.channel);
-      formData.append("priority", form.priority);
-      formData.append("redirectUrl", form.redirectUrl);
-      formData.append("bannerImage", form.file);
+    const bannerMetadata = {
+      clientId: form.clientId,
+      panId: form.panId,
+      channel: form.channel.toLowerCase(),
+      priority: parseInt(form.priority, 10),
+      clickAction: form.clickAction,
+      status: "active",
+    };
 
+    const formData = new FormData();
+    formData.append("banner", new Blob([JSON.stringify(bannerMetadata)], { type: "application/json" }));
+    formData.append("file", form.file);
+
+    try {
       const token = localStorage.getItem("authToken");
 
-      const res = await fetch(`${API_BASE_URL}/banner/upload`, {
-        method: "POST",
+      const response = await axios.post(`${API_BASE_URL}/api/banners`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
-        body: formData,
       });
 
-      if (res.ok) {
+      if (response.status === 200 || response.status === 201) {
         setUploadSuccess(true);
         clearForm();
         setTimeout(() => setUploadSuccess(false), 3000);
       } else {
-        const errText = await res.text();
-        alert("Upload failed: " + errText);
+        alert("Upload failed with status: " + response.status);
       }
-    } catch (err) {
-      console.error("Upload error:", err);
-      alert("Upload error: " + err.message);
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Upload error: " + error.message);
     } finally {
       setUploading(false);
     }
   };
 
-  const handleUpdate = async () => {
-    if (!form.bannerId) {
-      alert("Please enter a Banner ID to update.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("clientId", form.clientId);
-    formData.append("panId", form.panId);
-    formData.append("channel", form.channel);
-    formData.append("priority", form.priority);
-    formData.append("redirectUrl", form.redirectUrl);
-    if (form.file) {
-      formData.append("bannerImage", form.file);
-    }
-
-    try {
-      const token = localStorage.getItem("authToken");
-
-      const res = await fetch(`${API_BASE_URL}/banner/update/${form.bannerId}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      if (res.ok) {
-        alert("Banner updated successfully.");
-      } else {
-        const errText = await res.text();
-        alert("Update failed: " + errText);
-      }
-    } catch (err) {
-      console.error("Update error:", err);
-      alert("Update error: " + err.message);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (!form.bannerId) {
-      alert("Please enter a Banner ID to delete.");
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("authToken");
-
-      const res = await fetch(`${API_BASE_URL}/banner/delete/${form.bannerId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (res.ok) {
-        alert("Banner deleted successfully.");
-        clearForm();
-      } else {
-        const errText = await res.text();
-        alert("Delete failed: " + errText);
-      }
-    } catch (err) {
-      console.error("Delete error:", err);
-      alert("Delete error: " + err.message);
-    }
-  };
-
   const clearForm = () => {
     setForm({
-      bannerId: "",
       clientId: "",
       panId: "",
       channel: "",
       priority: "",
-      redirectUrl: "",
+      clickAction: "",
       file: null,
     });
   };
@@ -501,30 +455,19 @@ function UploadBanner() {
     form.panId &&
     form.channel &&
     form.priority &&
-    form.redirectUrl &&
+    form.clickAction &&
     form.file;
 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Add Your Banner</h1>
+          <h1 className={styles.title}>Upload a Banner</h1>
         </div>
 
         <div className={styles.card}>
           <div className={styles.formContainer}>
             <div className={styles.grid}>
-              <div className={styles.inputGroup}>
-                <label className={styles.label}>Banner ID (for Update/Delete)</label>
-                <input
-                  name="bannerId"
-                  value={form.bannerId}
-                  placeholder="Optional - Required for update/delete"
-                  onChange={handleChange}
-                  className={styles.input}
-                />
-              </div>
-
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Client ID</label>
                 <input
@@ -562,7 +505,7 @@ function UploadBanner() {
                   <option value="web">Web</option>
                   <option value="mobile">Mobile</option>
                   <option value="email">Email</option>
-                  <option value="social">Social Media</option>
+                  <option value="social media">Social Media</option>
                 </select>
               </div>
 
@@ -585,9 +528,9 @@ function UploadBanner() {
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Redirect URL</label>
                 <input
-                  name="redirectUrl"
+                  name="clickAction"
                   type="url"
-                  value={form.redirectUrl}
+                  value={form.clickAction}
                   placeholder="https://example.com"
                   onChange={handleChange}
                   required
@@ -673,22 +616,6 @@ function UploadBanner() {
                 ) : (
                   "Upload Banner"
                 )}
-              </button>
-
-              <button
-                type="button"
-                className={styles.updateButton}
-                onClick={handleUpdate}
-              >
-                Update Banner
-              </button>
-
-              <button
-                type="button"
-                className={styles.deleteButton}
-                onClick={handleDelete}
-              >
-                Delete Banner
               </button>
             </div>
           </div>

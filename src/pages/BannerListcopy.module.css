@@ -161,7 +161,16 @@ button:disabled {
   background-color: #ffe6e6;
   color: #dc3545;
 }
-
+.statusInactive {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-block;
+}
 /* Action Buttons */
 .deleteButton {
   background-color: #ff6347;
@@ -242,4 +251,101 @@ button:disabled {
     padding: 0.4rem 0.6rem;
     font-size: 0.8rem;
   }
+}
+
+
+
+
+/* // edit popus and button */
+.modalWhiteBlue {
+  background-color: white;
+  border: 2px solid #00bfff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 350px;
+  color: #333;
+  box-shadow: 0 0 12px rgba(0, 191, 255, 0.3);
+}
+
+.modalWhiteBlue h2 {
+  color: #00bfff;
+  margin-bottom: 12px;
+}
+
+.modalWhiteBlue label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.modalWhiteBlue input,
+.modalWhiteBlue select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.saveButton {
+  background-color: #00bfff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: #ccc;
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.editButton {
+  background-color: #28a745; /* Bootstrap success green */
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.editButton:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+.saveButton:hover {
+  background-color: #009acd;
+}
+.select {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #b0d7f5;
+  background-color: #f0f9ff;
+  color: #333;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 250px;
+}
+
+.select:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+}
+
+.select option {
+  background: #fff;
+  color: #333;
+  font-size: 1rem;
 }
